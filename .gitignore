@@ -1,0 +1,12 @@
+node_modules/
+# Material de la PKI: solo se versionan los .cnf
+pki/*
+!pki/openssl-root.cnf
+!pki/openssl-intermediate.cnf
+*.key
+*.csr
+doc/evidencias/*.png
+.pf-token
+*.p12
+# Salidas regeneradas por dh/test.sh
+dh/prueba/

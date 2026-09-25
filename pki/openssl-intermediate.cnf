@@ -1,0 +1,50 @@
+# Configuración de la CA intermedia. PKI_DIR y SERVER_SAN los exporta scripts/common.sh.
+
+[ ca ]
+default_ca = CA_default
+
+[ CA_default ]
+dir               = $ENV::PKI_DIR/intermediate
+certs             = $dir/certs
+new_certs_dir     = $dir/newcerts
+database          = $dir/index.txt
+serial            = $dir/serial
+private_key       = $dir/private/intermediate.key
+certificate       = $dir/certs/intermediate.crt
+default_md        = sha256
+default_days      = 397
+preserve          = no
+unique_subject    = no
+# No se copian extensiones de la CSR: el SAN lo fija la CA desde SERVER_SAN.
+copy_extensions   = none
+policy            = policy_loose
+
+[ policy_loose ]
+countryName             = optional
+organizationName        = optional
+commonName              = supplied
+
+[ req ]
+distinguished_name = req_distinguished_name
+string_mask        = utf8only
+default_md         = sha256
+
+[ req_distinguished_name ]
+countryName      = Country Name (2 letter code)
+organizationName = Organization Name
+commonName       = Common Name
+
+[ server_cert ]
+basicConstraints       = critical, CA:false
+keyUsage               = critical, digitalSignature
+extendedKeyUsage       = serverAuth
+subjectKeyIdentifier   = hash
+authorityKeyIdentifier = keyid,issuer
+subjectAltName         = $ENV::SERVER_SAN
+
+[ client_cert ]
+basicConstraints       = critical, CA:false
+keyUsage               = critical, digitalSignature
+extendedKeyUsage       = clientAuth
+subjectKeyIdentifier   = hash
+authorityKeyIdentifier = keyid,issuer

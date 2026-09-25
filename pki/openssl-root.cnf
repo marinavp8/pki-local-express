@@ -1,0 +1,55 @@
+# Configuración de la CA raíz. PKI_DIR lo exporta scripts/common.sh.
+
+[ ca ]
+default_ca = CA_default
+
+[ CA_default ]
+dir               = $ENV::PKI_DIR/root
+certs             = $dir/certs
+new_certs_dir     = $dir/newcerts
+database          = $dir/index.txt
+serial            = $dir/serial
+private_key       = $dir/private/root.key
+certificate       = $dir/certs/root.crt
+default_md        = sha256
+default_days      = 1825
+preserve          = no
+unique_subject    = no
+copy_extensions   = none
+policy            = policy_strict
+
+[ policy_strict ]
+countryName             = match
+organizationName        = match
+commonName              = supplied
+
+[ req ]
+distinguished_name = req_distinguished_name
+string_mask        = utf8only
+default_md         = sha256
+
+[ req_distinguished_name ]
+countryName      = Country Name (2 letter code)
+organizationName = Organization Name
+commonName       = Common Name
+
+# Autofirmado de la raíz.
+[ v3_ca ]
+subjectKeyIdentifier   = hash
+authorityKeyIdentifier = keyid:always,issuer
+basicConstraints       = critical, CA:true
+keyUsage               = critical, keyCertSign, cRLSign
+
+# Firma de la intermedia: solo puede emitir certificados finales para localhost/loopback.
+[ v3_intermediate_ca ]
+subjectKeyIdentifier   = hash
+authorityKeyIdentifier = keyid:always,issuer
+basicConstraints       = critical, CA:true, pathlen:0
+keyUsage               = critical, keyCertSign, cRLSign
+nameConstraints        = critical, @name_constraints
+
+[ name_constraints ]
+# "localhost" sin punto inicial permite localhost y cualquier subdominio *.localhost (RFC 5280).
+permitted;DNS.0 = localhost
+permitted;IP.0  = 127.0.0.0/255.0.0.0
+permitted;IP.1  = ::1/ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff

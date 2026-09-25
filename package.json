@@ -1,0 +1,21 @@
+{
+  "name": "pki-local-express",
+  "private": true,
+  "scripts": {
+    "pki:root": "scripts/01-create-root-ca.sh",
+    "pki:intermediate": "scripts/02-create-intermediate-ca.sh",
+    "pki:server-csr": "scripts/03-create-server-csr.sh",
+    "pki:server-cert": "scripts/04-sign-server-cert.sh",
+    "ca:install": "scripts/05-install-ca-macos.sh",
+    "ca:uninstall": "scripts/06-uninstall-ca-macos.sh",
+    "port443:on": "scripts/07-enable-port-443.sh",
+    "port443:off": "scripts/08-disable-port-443.sh",
+    "client:create": "scripts/09-create-client-cert.sh",
+    "client:install": "scripts/10-install-client-macos.sh",
+    "client:uninstall": "scripts/11-uninstall-client-macos.sh",
+    "start": "npm --prefix server start",
+    "verify": "scripts/verify.sh",
+    "verify:browser": "scripts/verify.sh --browser",
+    "dh:test": "dh/test.sh"
+  }
+}

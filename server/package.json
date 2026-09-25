@@ -1,0 +1,16 @@
+{
+  "name": "serverpruebas-https",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node --watch index.js"
+  },
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}
